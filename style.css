@@ -1,0 +1,308 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+
+}
+
+body {
+    background: #0F0F0F;
+    color: #FFFFFF;
+    padding: 2rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1{
+    color: #FFFFFF;
+    margin-bottom: 1rem;
+    font-size: 4rem;
+}
+.hidden{
+    display: none;
+}
+h2{
+    color: #fffdfd91;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+#search-input{
+    width: 50rem;
+    height: 2rem;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 0.4rem;
+    background-color: aliceblue;
+    color:rgb(44, 43, 43);
+    outline: none;
+
+}
+
+#search-input:hover{
+    box-shadow: 0 0 20px rgba(108, 108, 108, 0.5);
+}
+#search-box button{
+    width: 5rem;
+    height: 2.2rem;
+    background-color: #ffcc00;
+    border: none;
+    color: rgb(0, 0, 0);
+    border-radius: 0.4rem;
+    cursor: pointer;
+}
+#search-box button:hover {
+    background: #c7a728;
+}
+
+.error-message{
+    margin: 0.7rem;
+    color:tomato
+}
+
+.app {
+    margin-top: 5rem;
+    width: 90%;
+    max-width: 900px;
+    text-align: center;
+}
+
+.results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+}
+.movie-card{
+    background: #1d1c1c;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: left;
+    box-shadow: 0px 0px 10px rgba(255,255,255,0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.movie-card:hover {
+    transform: scale(1.04);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+
+}
+
+
+.movie-card img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.movie-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+
+.movie-card p {
+    font-size: 0.9rem;
+    color: #9b9999;
+    line-height: 1.3rem;
+    margin-bottom: 6px;
+}
+
+
+.side-nav {
+    width: 150px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #1b1a1a;
+    opacity: 0.7;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: space-between
+}
+
+.side-nav:hover {
+    box-shadow: 0 0 20px rgba(104, 103, 103, 0.4);
+}
+
+.side-nav h2 {
+    color: #ffcc00;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    padding-top: 3rem;
+}
+
+.side-nav a {
+    text-decoration: none;
+    color: #fff;
+    padding: 8px;
+    border-radius: 4px;
+    transition: 0.2s;
+    margin: 10px;
+}
+
+.side-nav a:hover {
+    background: #222;
+}
+
+.app {
+    margin-left: 100px;
+}
+
+.profile-box {
+    text-align: center;
+}
+
+.profile-box img:hover {
+    transform: scale(1.07);
+    border: 2px solid #ffcc00;
+    box-shadow: 0 0 15px rgba(255, 204, 0, 0.4);
+}
+
+.profile-box img {
+    width: 80px;
+    border-radius: 50%;
+}
+
+.profile-box p {
+    color: #ccc;
+    margin-top: 5px;
+    font-size: 0.9rem;
+}
+
+.profile-box p:hover {
+    color: cyan;
+}
+
+
+/*---------------------------doesn't works properly----------------------------------------*/
+/* Large tablets / small laptops */
+@media (max-width: 1024px) {
+    #search-input {
+        width: 35rem;
+    }
+
+    h1 {
+        font-size: 3rem;
+    }
+
+    .app {
+        margin-left: 120px;
+    }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+
+    body {
+        padding: 1rem;
+    }
+
+    /* Make sidebar smaller */
+    .side-nav {
+        width: 120px;
+        padding: 15px;
+    }
+
+    .app {
+        margin-left: 130px;
+    }
+
+    #search-input {
+        width: 25rem;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    .profile-box {
+        margin-top: 250px;
+    }
+}
+
+
+/* Mobile Phones */
+@media (max-width: 600px) {
+
+    /* Make sidebar horizontal on mobile */
+    .side-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: auto;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 10px;
+        opacity: 0.95;
+    }
+
+    .side-nav h2 {
+        padding: 0;
+        margin: 0;
+        font-size: 1rem;
+    }
+
+    .side-nav a {
+        padding: 5px;
+        font-size: 0.9rem;
+    }
+
+    /* Profile becomes small icon */
+    .profile-box {
+        margin-top: 0;
+    }
+
+    .profile-box img {
+        width: 40px;
+    }
+
+    .profile-box p {
+        display: none;
+    }
+
+    /* Main content moves down */
+    .app {
+        margin-left: 0;
+        margin-top: 90px;
+        width: 100%;
+    }
+
+    #search-input {
+        width: 90%;
+        height: 2.2rem;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .results {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+    }
+
+    .movie-card img {
+        height: 240px;
+    }
+}
+
+/* Ultra small phones */
+@media (max-width: 400px) {
+    #search-input {
+        width: 95%;
+    }
+
+    .movie-card img {
+        height: 200px;
+    }
+}
