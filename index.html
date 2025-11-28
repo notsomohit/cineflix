@@ -1,33 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>cineFlix</title>
-        <link rel="icon" type="image/png" href="favicon.webp">
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <div class="side-nav">
-            <div style="display: flex;flex-direction: column;">
-                <h2>Menu</h2>
-                <a href="#">Home</a>
-                <a href="https://github.com/notsomohit" target="_blank">GitHub</a>
-                <a href="https://x.com/notsomohit_" target="_blank">X</a>
-            </div>
-            <div class="profile-box">
-                <img src="https://avatars.githubusercontent.com/u/236455872?s=400&u=68c1fde51974df1a1bcc52f802c255013d251244&v=4" alt="profile" title="hellooo" />
-                <p>notsomohit</p>
-            </div>
+<head>
+    <meta charset="UTF-8">
+    <title>cineFlix</title>
+    <link rel="icon" type="image/png" href="favicon.webp">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="side-nav">
+        <div style="display: flex; flex-direction: column;">
+            <h2>Menu</h2>
+            <a href="#">Home</a>
+            <a href="https://github.com/notsomohit" target="_blank">GitHub</a>
+            <a href="https://x.com/notsomohit_" target="_blank">X</a>
         </div>
-        <div class="app">
-            <h1>cine-flix</h1>
-            <h2 id="hunt">Let's hunt some movies</h2>
-            <form id="search-box">
-                <input type="text" id="search-input" placeholder="search for a movie"/>
-                <button type="submit">search</button>
-            </form>
-            <div id="results" class="results"></div>
+
+        <div class="profile-box">
+            <img src="https://avatars.githubusercontent.com/u/236455872?s=400&u=68c1fde51974df1a1bcc52f802c255013d251244&v=4" 
+                 alt="profile" 
+                 title="hellooo" />
+            <p>notsomohit</p>
         </div>
-        <script src="script.js"></script>
-    </body>
-</html
+    </div>
+
+    <div class="app">
+        <h1>cine-flix</h1>
+        <h2 id="hunt">Let's hunt some movies</h2>
+
+        <form id="search-box">
+            <input type="text" id="search-input" placeholder="search for a movie" />
+            <button type="submit">search</button>
+        </form>
+
+        <div id="results" class="results"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
