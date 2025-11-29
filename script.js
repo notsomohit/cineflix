@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   async function loadTrendingMovies() {
     try {
-      sectionTitle.textContent = "Trending ";
+      sectionTitle.textContent = "Trending";
       sectionTitle.classList.remove("hidden");
       resultsSection.innerHTML = `
         <p class="loading-message">Loading trending movies...</p>

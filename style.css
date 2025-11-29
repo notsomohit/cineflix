@@ -67,9 +67,16 @@ h2{
 #section-title {
   color: #ff3b3b;       
   font-size: 2.5rem;
-  margin: 1rem 0;
+  padding-left: 1rem;
+  margin-top: 5rem;
   font-weight: bold;
-  text-align: center;
+  text-align: left;
+  border-left: solid 5px #ff3b3b;
+  cursor: pointer;
+}
+
+#section-title:hover{
+     color: #fc0000;
 }
 
 .app {
