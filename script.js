@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const resultsSection = document.getElementById("results");
   const hide = document.getElementById("hunt");
   const sectionTitle = document.getElementById("section-title");
+  const navTrending = document.getElementById("nav-trending");
+
 
   loadTrendingMovies();
 
@@ -102,5 +104,12 @@ document.addEventListener("DOMContentLoaded", () => {
       resultsSection.innerHTML = `<p class="error-message">Failed to load trending movies.</p>`;
     }
   }
+
+  navTrending.addEventListener('click',()=>{
+    
+    searchInput.value = "";
+    hide.classList.remove('hidden');
+    loadTrendingMovies();
+  });
 
 });
