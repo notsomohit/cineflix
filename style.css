@@ -64,6 +64,14 @@ h2{
     color:tomato
 }
 
+#section-title {
+  color: #ff3b3b;       
+  font-size: 2.5rem;
+  margin: 1rem 0;
+  font-weight: bold;
+  text-align: center;
+}
+
 .app {
     margin-top: 5rem;
     width: 90%;

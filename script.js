@@ -3,12 +3,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("search-input");
   const resultsSection = document.getElementById("results");
   const hide = document.getElementById("hunt");
+  const sectionTitle = document.getElementById("section-title");
+
+  loadTrendingMovies();
 
   formData.addEventListener("submit", (e) => {
     e.preventDefault();
     const query = searchInput.value.trim();
     if (!query) return;
-
+    sectionTitle.classList.add("hidden");
     hide.classList.add("hidden");
     fetchMovie(query);
   });
@@ -31,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await response.json();
       console.log(data);
       displayMovieDetails(data.results || []);
-    } catch (err) {
+    }catch (err) {
       console.error(err);
       resultsSection.innerHTML = `
         <p class="error-message">Something went wrong. Please try again later.</p>
@@ -81,4 +84,23 @@ document.addEventListener("DOMContentLoaded", () => {
       resultsSection.appendChild(card);
     });
   }
+  async function loadTrendingMovies() {
+    try {
+      sectionTitle.textContent = "Trending ";
+      sectionTitle.classList.remove("hidden");
+      resultsSection.innerHTML = `
+        <p class="loading-message">Loading trending movies...</p>
+      `;
+
+      const res = await fetch("/api/trending");
+      if (!res.ok) throw new Error("Failed trending fetch");
+
+      const data = await res.json();
+      displayMovieDetails(data.results || []);
+    } catch (error) {
+      console.error(error);
+      resultsSection.innerHTML = `<p class="error-message">Failed to load trending movies.</p>`;
+    }
+  }
+
 });
