@@ -40,9 +40,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function displayMovieDetails(movies) {
-    movies.sort((a, b) => b.vote_average - a.vote_average);
-    resultsSection.innerHTML = "";
 
+    movies.forEach(movie => {
+        const v = movie.vote_average;
+        const c = movie.vote_count;
+        movie.weighted_score = (v * c) / (c + 500);
+    });
+
+    movies.sort((a, b) => b.weighted_score - a.weighted_score);    resultsSection.innerHTML = "";
     if (!movies || movies.length === 0) {
       resultsSection.innerHTML = `
         <p class="error-message">No results found</p>
