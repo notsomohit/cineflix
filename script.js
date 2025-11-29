@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function displayMovieDetails(movies) {
+    movies.sort((a, b) => b.vote_average - a.vote_average);
     resultsSection.innerHTML = "";
 
     if (!movies || movies.length === 0) {
