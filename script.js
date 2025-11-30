@@ -52,7 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
         movie.weighted_score = (v * c) / (c + 500);
     });
 
-    movies.sort((a, b) => b.weighted_score - a.weighted_score);    resultsSection.innerHTML = "";
+    movies.sort((a, b) => b.weighted_score - a.weighted_score);    
+    resultsSection.innerHTML = "";
     if (!movies || movies.length === 0) {
       resultsSection.innerHTML = `
         <p class="error-message">No results found</p>
