@@ -198,6 +198,23 @@ h2{
     color: cyan;
 }
 
+.trailer-popup {
+  position: absolute;
+  top: 0;
+  left: 105%;
+  width: 300px;
+  height: 170px;
+  background: #000;
+  display: none;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  z-index: 999;
+}
+
+.movie-card {
+  position: relative;
+}
 
 /*---------------------------doesn't works properly----------------------------------------*/
 /* Large tablets / small laptops */
