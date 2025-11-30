@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const sectionTitle = document.getElementById("section-title");
   const navTrending = document.getElementById("nav-trending");
 
+
   loadTrendingMovies();
 
   formData.addEventListener("submit", (e) => {
@@ -19,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function fetchMovie(movieName) {
     try {
+
       resultsSection.innerHTML = `
         <p class="loading-message">Searching for "${movieName}"...</p>
       `;
@@ -32,8 +34,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const data = await response.json();
+      console.log(data);
       displayMovieDetails(data.results || []);
-    } catch (err) {
+    }catch (err) {
       console.error(err);
       resultsSection.innerHTML = `
         <p class="error-message">Something went wrong. Please try again later.</p>
@@ -42,15 +45,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function displayMovieDetails(movies) {
+
     movies.forEach(movie => {
-      const v = movie.vote_average;
-      const c = movie.vote_count;
-      movie.weighted_score = (v * c) / (c + 500);
+        const v = movie.vote_average;
+        const c = movie.vote_count;
+        movie.weighted_score = (v * c) / (c + 500);
     });
 
-    movies.sort((a, b) => b.weighted_score - a.weighted_score);
+    movies.sort((a, b) => b.weighted_score - a.weighted_score);    
     resultsSection.innerHTML = "";
-
     if (!movies || movies.length === 0) {
       resultsSection.innerHTML = `
         <p class="error-message">No results found</p>
@@ -72,7 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const card = document.createElement("div");
       card.classList.add("movie-card");
-      card.dataset.id = movie.id; // ⭐ IMPORTANT
 
       card.innerHTML = `
         <img src="${poster}" class="poster" alt="${movie.original_title}" />
@@ -80,16 +82,11 @@ document.addEventListener("DOMContentLoaded", () => {
         <p>${movie.overview || "No description available"}</p>
         <p><div class="details">release date: ${movie.release_date || "N/A"}</div></p>
         <p><div class="details">vote average: <span style="color:yellow">${movie.vote_average ?? "N/A"}</span></div></p>
-
-        <div class="trailer-popup"></div> <!-- ⭐ ADDED -->
       `;
 
       resultsSection.appendChild(card);
     });
-
-    attachTrailerHover(); //new
   }
-
   async function loadTrendingMovies() {
     try {
       sectionTitle.textContent = "Trending";
@@ -109,60 +106,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  navTrending.addEventListener("click", () => {
+  navTrending.addEventListener('click',()=>{
+    
     searchInput.value = "";
-    hide.classList.remove("hidden");
+    hide.classList.remove('hidden');
     loadTrendingMovies();
   });
 
-  // fetch trailer 
-  async function getTrailer(id) {
-    try {
-      const res = await fetch(`/api/trailer?id=${id}`);
-      const data = await res.json();
-
-      const trailer = data.results.find(
-        vid => vid.type === "Trailer" && vid.site === "YouTube"
-      );
-
-      return trailer ? trailer.key : null;
-    } catch (error) {
-      console.error("Trailer fetch failed", error);
-      return null;
-    }
-  }
-
-  //  handle hover popup
-  function attachTrailerHover() {
-    const cards = document.querySelectorAll(".movie-card");
-
-    cards.forEach(card => {
-      const popup = card.querySelector(".trailer-popup");
-      const movieId = card.dataset.id;
-      let loaded = false;
-
-      card.addEventListener("mouseenter", async () => {
-        popup.style.display = "block";
-
-        if (!loaded) {
-          const key = await getTrailer(movieId);
-          if (key) {
-            popup.innerHTML = `
-              <iframe
-                width="300" height="170"
-                src="https://www.youtube.com/embed/${key}?autoplay=1&mute=1&controls=0"
-                allow="autoplay"
-                frameborder="0">
-              </iframe>
-            `;
-          }
-          loaded = true;
-        }
-      });
-
-      card.addEventListener("mouseleave", () => {
-        popup.style.display = "none";
-      });
-    });
-  }
 });
