@@ -171,7 +171,14 @@ h2{
     -webkit-line-clamp: 3;
     overflow: hidden;
 }
+.modal-content {
+    z-index: 10000 !important;
+}
 
+#search-box {
+    z-index: 1;
+    position: relative;
+}
 
 .details {
     font-size: 0.85rem;
