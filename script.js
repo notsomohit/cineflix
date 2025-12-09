@@ -6,9 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const sectionTitle = document.getElementById("section-title");
   const navTrending = document.getElementById("nav-trending");
 
-  const modal = document.getElementById("modal");
-  const modalBody = document.getElementById("modal-body");
-  const modalClose = document.getElementById("modal-close");
 
   loadTrendingMovies();
 
@@ -16,24 +13,30 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     const query = searchInput.value.trim();
     if (!query) return;
+    sectionTitle.classList.add("hidden");
     hide.classList.add("hidden");
-    sectionTitle.textContent = `Results for "${query}"`;
-    sectionTitle.classList.remove("hidden");
     fetchMovie(query);
   });
 
   async function fetchMovie(movieName) {
     try {
-      showSkeletons();
+
+      resultsSection.innerHTML = `
+        <p class="loading-message">Searching for "${movieName}"...</p>
+      `;
+
       const response = await fetch(
         `/api/movies?query=${encodeURIComponent(movieName)}`
       );
+
       if (!response.ok) {
         throw new Error("Failed to fetch movies");
       }
+
       const data = await response.json();
+      console.log(data);
       displayMovieDetails(data.results || []);
-    } catch (err) {
+    }catch (err) {
       console.error(err);
       resultsSection.innerHTML = `
         <p class="error-message">Something went wrong. Please try again later.</p>
@@ -41,17 +44,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function showSkeletons() {
-    resultsSection.innerHTML = "";
-    for (let i = 0; i < 6; i++) {
-      const skel = document.createElement("div");
-      skel.className = "skeleton-card";
-      skel.innerHTML = `<div class="skeleton-poster"></div>`;
-      resultsSection.appendChild(skel);
-    }
-  }
-
   function displayMovieDetails(movies) {
+
+    movies.forEach(movie => {
+        const v = movie.vote_average;
+        const c = movie.vote_count;
+        movie.weighted_score = (v * c) / (c + 500);
+    });
+
+    movies.sort((a, b) => b.weighted_score - a.weighted_score);    
+    resultsSection.innerHTML = "";
     if (!movies || movies.length === 0) {
       resultsSection.innerHTML = `
         <p class="error-message">No results found</p>
@@ -60,17 +62,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     movies.forEach((movie) => {
-      const v = movie.vote_average || 0;
-      const c = movie.vote_count || 0;
-      movie.weighted_score = (v * c) / (c + 500);
-    });
-
-    movies.sort((a, b) => b.weighted_score - a.weighted_score);
-
-    resultsSection.innerHTML = "";
-
-    movies.forEach((movie) => {
       let poster;
+
       if (movie.poster_path) {
         poster = "https://image.tmdb.org/t/p/w500" + movie.poster_path;
       } else if (movie.backdrop_path) {
@@ -83,38 +76,24 @@ document.addEventListener("DOMContentLoaded", () => {
       const card = document.createElement("div");
       card.classList.add("movie-card");
 
-      const title = movie.title || movie.original_title || "Untitled";
-      const overview = movie.overview || "No description available";
-      const voteAverage =
-        typeof movie.vote_average === "number"
-          ? movie.vote_average.toFixed(1)
-          : "N/A";
-
       card.innerHTML = `
-        <div class="poster-wrapper">
-          <span class="rating-badge">${voteAverage}</span>
-          <img src="${poster}" class="poster" alt="${title}" />
-        </div>
-        <h3>${title}</h3>
-        <p class="overview">${overview}</p>
+        <img src="${poster}" class="poster" alt="${movie.original_title}" />
+        <h3>${movie.original_title}</h3>
+        <p>${movie.overview || "No description available"}</p>
         <p><div class="details">release date: ${movie.release_date || "N/A"}</div></p>
-        <p><div class="details">vote average: <span style="color:#ffcc00">${voteAverage}</span> (${movie.vote_count || 0} votes)</div></p>
+        <p><div class="details">vote average: <span style="color:yellow">${movie.vote_average ?? "N/A"}</span></div></p>
       `;
-
-      card.addEventListener("click", () => {
-        openModal(movie, poster);
-      });
 
       resultsSection.appendChild(card);
     });
   }
-
   async function loadTrendingMovies() {
     try {
       sectionTitle.textContent = "Trending";
       sectionTitle.classList.remove("hidden");
-      hide.classList.remove("hidden");
-      showSkeletons();
+      resultsSection.innerHTML = `
+        <p class="loading-message">Loading trending movies...</p>
+      `;
 
       const res = await fetch("/api/trending");
       if (!res.ok) throw new Error("Failed trending fetch");
@@ -127,35 +106,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function openModal(movie, poster) {
-    const title = movie.title || movie.original_title || "Untitled";
-    const voteAverage =
-      typeof movie.vote_average === "number"
-        ? movie.vote_average.toFixed(1)
-        : "N/A";
-
-    modalBody.innerHTML = `
-      <img src="${poster}" alt="${title}" />
-      <h2>${title}</h2>
-      <p><strong>Release:</strong> ${movie.release_date || "N/A"}</p>
-      <p><strong>Rating:</strong> ${voteAverage} (${movie.vote_count || 0} votes)</p>
-      <p style="margin-top: 1rem;">${movie.overview || "No description available"}</p>
-    `;
-    modal.classList.remove("hidden");
-  }
-
-  modalClose.addEventListener("click", () => {
-    modal.classList.add("hidden");
-  });
-
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) {
-      modal.classList.add("hidden");
-    }
-  });
-
-  navTrending.addEventListener("click", () => {
+  navTrending.addEventListener('click',()=>{
+    
     searchInput.value = "";
+    hide.classList.remove('hidden');
     loadTrendingMovies();
   });
+
 });
